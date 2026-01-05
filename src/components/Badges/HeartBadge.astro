@@ -1,0 +1,28 @@
+---
+import HeartIcon from '@icons/Heart.astro'
+
+const { favourite, tmdb_id, imdb_id } = Astro.props
+---
+
+<button
+  id='heart-button'
+  type='button'
+  title={favourite ? 'Dislike' : 'Like'}
+  data-imdb_id={imdb_id}
+  data-tmdb_id={tmdb_id}
+  data-favourite={favourite}
+  class='absolute top-2 right-2 p-2 rounded-full bg-black/40 backdrop-blur-sm transition-all duration-300 hover:bg-black/60'
+>
+  <HeartIcon
+    class={`
+      transition-all duration-300
+      ${
+        favourite
+          ? 'text-red-500 hover:text-gray-200'
+          : 'text-gray-200 hover:text-red-500 hover:scale-125'
+      }
+    `}
+  />
+</button>
+
+<script src='../../assets/scripts/heartbadge.ts'></script>

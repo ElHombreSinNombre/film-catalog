@@ -1,0 +1,24 @@
+<div id='toast-container' class='toast'></div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const showToast = (message: string) => {
+      const toastContainer = document.getElementById(
+        'toast-container'
+      ) as HTMLDivElement
+      if (!toastContainer) return
+      const oldToast = toastContainer.querySelector('div')
+      if (oldToast) oldToast.remove()
+      const toast = document.createElement('div')
+      toast.className = `animate-bounce bg-black p-3.5 w-full rounded-md text-white shadow-md `
+      toast.innerText = message
+      toastContainer.appendChild(toast)
+      setTimeout(() => {
+        toast.remove()
+      }, 3000)
+    }
+    document.addEventListener('notify', (event: any) => {
+      showToast(event.detail.message)
+    })
+  })
+</script>

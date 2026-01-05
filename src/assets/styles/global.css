@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+@layer base {
+  button {
+    @apply cursor-pointer;
+  }
+}
+@layer utilities {
+  .borders {
+    @apply rounded-md transition-all duration-300 border border-transparent hover:border-black hover:shadow-md;
+  }
+}
+@layer components {
+  .toast {
+    @apply fixed bottom-5 right-5 z-10 pointer-events-none;
+  }
+  .carousel {
+    @apply flex flex-nowrap gap-6 justify-start lg:justify-center overflow-x-auto snap-x scroll-smooth snap-mandatory px-6;
+  }
+  .tile {
+    @apply absolute inset-0 flex flex-col items-center justify-center 
+      gap-3 p-4 text-center text-white opacity-0 
+      backdrop-blur-sm transition-all duration-300 ease-out
+      bg-linear-to-t from-black/80 via-black/50 to-transparent
+      translate-y-2 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100;
+  }
+  .tileEmpty {
+    @apply relative aspect-2/3 w-48 bg-zinc-800 flex flex-col gap-2 text-zinc-400 items-center justify-center 
+    text-xs shadow-inner hover:bg-black/30 hover:text-black;
+  }
+}

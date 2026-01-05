@@ -1,0 +1,11 @@
+---
+import FilmIcon from '@icons/Film.astro'
+import BackBadge from '@components/badges/BackBadge.astro'
+const { title = 'Movie not available', back = false } = Astro.props
+---
+
+<div class='tileEmpty borders' role='status' aria-live='polite'>
+  <FilmIcon />
+  {title}
+  {back && <BackBadge />}
+</div>

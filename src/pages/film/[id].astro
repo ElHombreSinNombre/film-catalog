@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets'
+import Layout from '../../layouts/Layout.astro'
+import HeartBadge from '@components/badges/HeartBadge.astro'
+import StarBadge from '@components/badges/StarBadge.astro'
+import BackBadge from '@components/badges/BackBadge.astro'
+import { getItem } from '../../endpoints/tmdb'
+import EmptyTile from '@components/EmptyTile.astro'
+
+const { id } = Astro.params
+
+if (!id) {
+  return Astro.redirect('/404')
+}
+
+const movie = await getItem({ tmdb_id: id }).catch((error) => {
+  console.error('Error loading movie:', error)
+})
+---
+
+<Layout title={movie?.title ?? 'Movie not found'}>
+  {
+    !movie ? (
+      <EmptyTile title='Movie not found' back={true} />
+    ) : (
+      <div class='borders w-fit text-white flex flex-col md:flex-row gap-8 p-4 md:p-6 mx-auto items-center md:items-start bg-linear-to-br from-zinc-800 via-zinc-700 to-zinc-900'>
+        {movie.poster_path && (
+          <div class='max-w-xs w-full relative group'>
+            <Image
+              transition:name={`poster-${movie.imdb_id}`}
+              loading='eager'
+              src={movie.poster_path}
+              alt={movie.title}
+              width={320}
+              height={480}
+              class='w-full h-full object-cover rounded-md'
+            />
+            <HeartBadge
+              imdb_id={movie.imdb_id}
+              tmdb_id={movie.id}
+              favourite={movie.favourite ?? false}
+            />
+          </div>
+        )}
+        <div class='flex flex-col gap-3 items-center md:items-start'>
+          {movie.imdb_id && movie.title && (
+            <a
+              aria-label={movie.title}
+              target='_blank'
+              class='text-4xl font-bold hover:underline'
+              href={`https://www.imdb.com/title/${movie.imdb_id}`}
+            >
+              {movie.title}
+            </a>
+          )}
+          {movie.vote_average !== undefined && movie.id && movie.imdb_id && (
+            <StarBadge
+              imdb_id={movie.imdb_id}
+              tmdb_id={movie.id}
+              vote_average={movie.vote_average}
+            />
+          )}
+          {movie.overview && (
+            <section aria-labelledby='overview'>
+              <p class='text-gray-200 text-center md:text-left'>
+                {movie.overview}
+              </p>
+            </section>
+          )}
+        </div>
+        <BackBadge />
+      </div>
+    )
+  }
+</Layout>

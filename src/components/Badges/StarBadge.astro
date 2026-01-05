@@ -1,0 +1,28 @@
+---
+import StarIcon from '@icons/Star.astro'
+
+const { vote_average, tmdb_id, imdb_id } = Astro.props
+---
+
+<button
+  id='star-button'
+  type='button'
+  title='Vote'
+  data-imdb_id={imdb_id}
+  data-tmdb_id={tmdb_id}
+  data-vote_average={vote_average}
+  class='flex gap-2'
+>
+  {
+    Array.from({ length: 5 }).map((_, i) => (
+      <div data-index={i + 1} class='star-container group '>
+        <StarIcon
+          class={`
+            transition-all duration-300
+            group-hover:animate-bounce ${i < vote_average ? 'text-amber-400' : 'text-zinc-600'}`}
+        />
+      </div>
+    ))
+  }
+</button>
+<script src='../../assets/scripts/starbadge.ts'></script>

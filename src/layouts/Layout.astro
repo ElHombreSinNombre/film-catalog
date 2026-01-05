@@ -1,0 +1,28 @@
+---
+import { ClientRouter } from 'astro:transitions'
+import Toast from '@components/Toast.astro'
+import '../assets/styles/global.css'
+
+const { title = 'Film Catalog' } = Astro.props
+---
+
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/svg+xml' href='/film.svg' />
+    <title>{title}</title>
+  </head>
+  <ClientRouter />
+  <body>
+    <main
+      class='flex flex-col justify-center items-center min-h-screen p-4 md:p-16 bg-black/10'
+    >
+      <slot />
+      <Toast />
+    </main>
+  </body>
+
+
+</html>

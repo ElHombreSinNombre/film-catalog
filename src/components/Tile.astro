@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets'
+import Eye from '@icons/Eye.astro'
+import EmptyTile from '@components/EmptyTile.astro'
+
+const { movie } = Astro.props
+---
+
+{
+  !movie?.poster_path ? (
+    <EmptyTile />
+  ) : (
+    <article
+      aria-labelledby={movie.imdb_id}
+      class='relative group cursor-pointer'
+    >
+      <div class='w-full h-full '>
+        <div class='relative w-full aspect-2/3 overflow-hidden borders '>
+          <Image
+            transition:name={`poster-${movie.imdb_id}`}
+            loading='lazy'
+            src={movie.poster_path}
+            alt={movie.title}
+            title={movie.title}
+            format='webp'
+            width={400}
+            height={600}
+            class='object-cover transition-transform duration-300 ease-out group-hover:scale-110 group-focus-within:scale-110'
+          />
+          <div class='tile' aria-hidden='true'>
+            {movie.release_date && movie.title && (
+              <div class='flex flex-col gap-2 w-fit translate-y-2 opacity-0 transition-all duration-300 delay-75 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100'>
+                <h3 class='font-bold text-base line-clamp-2'>{movie.title}</h3>
+                <span class='bg-white/20 rounded-md p-1.5 text-sm'>
+                  {new Date(movie.release_date).getFullYear()}
+                </span>
+              </div>
+            )}
+            <div class='translate-y-4 opacity-0 transition-all duration-300 delay-150 group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:translate-y-0 group-focus-within:opacity-100'>
+              <Eye />
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  )
+}
